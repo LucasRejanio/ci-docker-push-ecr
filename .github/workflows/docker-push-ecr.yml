@@ -30,9 +30,9 @@ jobs:
       - name: Docker pull image
         run: |
           docker pull datadog/agent:latest
-        working-directory: ./datadog/agent
+        working-directory: ./datadog-agent
 
       - name: Push to ECR
         run: |
           docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
-        working-directory: ./datadog/agent
+        working-directory: ./datadog-agent
