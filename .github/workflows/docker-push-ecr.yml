@@ -30,12 +30,12 @@ jobs:
           
       - name: Docker pull image
         run: |
-          docker pull datadog/agent:latest datadog/agent:latest
+          docker pull datadog/agent:latest
         working-directory: ./datadog-agent
         
       - name: Docker tag
         run: |
-          docker tag datadog/agent:latest
+          docker tag datadog/agent:latest datadog/agent:latest
         working-directory: ./datadog-agent
 
       - name: Push to ECR
