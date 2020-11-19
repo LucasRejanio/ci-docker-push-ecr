@@ -1,2 +1,2 @@
-# docker-push-ecr
+# Docker push ecr
 Docker pull from dockerhub and docker push to ecr aws
