@@ -5,8 +5,8 @@ Docker pull from dockerhub and docker push to ecr aws
 name: Docker pull from dockerhub and docker push to ecr aws
 
 on:
-  push:
-    branches: [ main ]
+  schedule:
+    - cron: "00 03 * * *" # Midnight of everyday on BRT
 
 env:
   AWS_DEFAULT_REGION: us-east-1
