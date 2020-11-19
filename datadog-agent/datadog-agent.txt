@@ -1,3 +1,3 @@
 Diretório criado para usar a função de 'working-directory:'.
 Essa função indica o diretório onde será executado algumas das steps da minha pipeline actions.
-Nesse caso, onde será feito o pull da imagem e onde o push irá buscar para enviar ao ECR na AWS.
+Nesse caso, onde será feito o pull da imagem e onde o push irá buscar para enviar ao ECR na AWS..
