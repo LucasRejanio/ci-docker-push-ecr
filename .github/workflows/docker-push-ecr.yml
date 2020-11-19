@@ -10,7 +10,7 @@ env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_CI_ACCOUNT_ID }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_CI_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_CI_SECRET_ACCESS_KEY }}
-  CONTAINER_IMAGE: datadog/agent:latest
+  CONTAINER_IMAGE: datadog/agent
 
 jobs:
   build-and-push:
@@ -34,7 +34,7 @@ jobs:
         
       - name: Docker tag
         run: |
-          docker tag latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
+          docker tag datadog/agent:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
         working-directory: ./datadog-agent
 
       - name: Push to ECR
