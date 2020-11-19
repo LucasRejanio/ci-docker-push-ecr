@@ -35,7 +35,7 @@ jobs:
         
       - name: Docker tag
         run: |
-          docker tag datadog/agent:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/datadog/agent:latest
+          docker tag datadog/agent:latest /datadog/agent:latest
         working-directory: ./datadog-agent
 
       - name: Push to ECR
