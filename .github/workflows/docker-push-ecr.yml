@@ -1,16 +1,16 @@
 name: Docker pull from dockerhub and docker push to ecr aws
 
 on:
-  schedule:
-    - cron: "00 03 * * *" # Midnight of everyday on BRT
+  push:
+    branches: [ main ]
 
 env:
-  AWS_DEFAULT_REGION: us-east-2
+  AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
   AWS_ACCOUNT_ID: ${{ secrets.AWS_CI_ACCOUNT_ID }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_CI_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_CI_SECRET_ACCESS_KEY }}
-  CONTAINER_IMAGE: github-actions-runner
+  CONTAINER_IMAGE: datadog/agent
 
 jobs:
   build-and-push:
@@ -26,14 +26,13 @@ jobs:
           -u AWS \
           -p $(aws ecr get-login-password) \
           https://$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - name: Build and tag the image
+          
+      - name: Docker pull image
         run: |
-          docker build \
-            -t $CONTAINER_IMAGE \
-            -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE .
-        working-directory: ./github-actions-runner
+          docker pull datadog/agent:latest
+        working-directory: ./datadog/agent
 
-      - name: Push
+      - name: Push to ECR
         run: |
           docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
-        working-directory: ./github-actions-runner
+        working-directory: ./datadog/agent
