@@ -37,10 +37,10 @@ jobs:
       #Enviroment CI
       - name: Setup ECR enviromment CI 
         run: |
-          docker login --profile ci \
+          docker login \
           -u AWS \
-          -p $(aws ecr get-login) \
-          https://$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+          -p $(aws ecr --profile ci get-login-password) \
+          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           
       - name: Docker pull image 
         run: |
