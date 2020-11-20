@@ -39,7 +39,7 @@ jobs:
         run: |
           docker login \
           -u AWS \
-          -p $(aws ecr get-login-password --profile ci) \
+          -p $(aws ecr --profile ci get-login-password) \
           https://$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           
       - name: Docker pull image 
@@ -62,7 +62,7 @@ jobs:
         run: |
           docker login \
           -u AWS \
-          -p $(aws ecr get-login-password --profile qa) \
+          -p $(aws ecr --profile qa get-login-password) \
           https://$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           
       - name: Docker pull image 
