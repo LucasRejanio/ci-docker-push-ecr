@@ -50,7 +50,8 @@ jobs:
       
       - name: Docker pull image 
         run: |
-          docker pull $IMAGE_NAME:latest
+          echo $IMAGE_NAME /
+          docker pull $IMAGE_NAME
         
       - name: Docker tag in the ECS
         run: |
