@@ -44,9 +44,8 @@ jobs:
           
       - name: Parse Json 
         run: | 
-           echo "IMAGE_NAME=$(cat images | jq '.[].image')" /
-           echo "DOCKER_URI=$(cat images | jq '.[].Service')"
-        working-directory: ./datadog-agent
+           export "IMAGE_NAME=$(cat ./datadog-agent/images.json | jq '.[].image')" /
+           export "DOCKER_URI=$(cat ./datadog-agent/images.json | jq '.[].Service')"
       
       - name: Echo var 
         run: |
