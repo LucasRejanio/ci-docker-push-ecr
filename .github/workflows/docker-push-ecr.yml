@@ -44,12 +44,11 @@ jobs:
       
       - name: Parse Json and set env 
         run: |
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image')" >> $GITHUB_ENV 
+          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV 
       
       - name: Validation 
         run: |
           echo ${IMAGE_NAME} \
-          echo $AWS_QA_REPOSITORY_NAME_ECS
           
       - name: Docker pull image 
         run: |
