@@ -44,8 +44,8 @@ jobs:
           
       - name: Parse Json 
         run: |
-          export IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].image') /
-          export DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Service')
+          echo IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].image') /
+          echo DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Service')
       
       - name: Docker pull image 
         run: |
