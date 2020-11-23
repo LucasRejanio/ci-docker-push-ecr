@@ -48,7 +48,8 @@ jobs:
       
       - name: Validation 
         run: |
-          echo $IMAGE_NAME
+          echo ${IMAGE_NAME} \
+          echo $AWS_QA_REPOSITORY_NAME_ECS
           
       - name: Docker pull image 
         run: |
