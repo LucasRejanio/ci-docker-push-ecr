@@ -49,7 +49,7 @@ jobs:
       
       - name: Validation 
         run: |
-          echo $IMAGE_NAME:$IMAGE_TAG
+          echo $IMAGE_NAME
           
       - name: Docker pull image 
         run: |
