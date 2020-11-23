@@ -43,12 +43,18 @@ jobs:
           https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           
       - name: Parse Json 
-        run: | 
-           echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].image')" /
-           echo "DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Service')"
-      
-      - name: Echo var 
         run: |
-          echo $IMAGE_NAME /
-          echo $DOCKER_URI
+          export IMAGE_NAME=$(cat images | jq '.[].image') /
+          export DOCKER_URI=$(cat images | jq '.[].Service')
       
+      - name: Docker pull image 
+        run: |
+          docker pull $IMAGE_NAME
+        
+      - name: Docker tag in the ECS
+        run: |
+          docker tag $IMAGE_NAME $DOCKER_URI
+
+      - name: Push to ECR
+        run: |
+          docker push $DOCKER_URI
