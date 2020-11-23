@@ -1,6 +1,6 @@
 [
     {
-    "Image":"datadog/agent",
+    "Image":"datadog/agent:latest",
     "Tag":"latest",
     "Service":"033846053144.dkr.ecr.us-east-1.amazonaws.com/datadog-agent:latest"
     }
