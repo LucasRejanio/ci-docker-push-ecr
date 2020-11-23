@@ -46,10 +46,14 @@ jobs:
           echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
           && echo "DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Tag' | sed 's/"//g')" >> $GITHUB_ENV 
       
-      - name: Validation 
-        run: |
-          echo $IMAGE_NAME
-          
       - name: Docker pull image 
         run: |
           docker pull $IMAGE_NAME
+        
+      - name: Docker tag in the ECS
+        run: |
+          docker tag $IMAGE_NAME $DOCKER_URI
+
+      - name: Push to ECR
+        run: |
+          docker push $DOCKER_URI
