@@ -44,7 +44,7 @@ jobs:
       - name: Parse Json and set env 
         run: |
           echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
-          echo "DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Tag' | sed 's/"//g')" >> $GITHUB_ENV 
+          && echo "DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Tag' | sed 's/"//g')" >> $GITHUB_ENV 
       
       - name: Validation 
         run: |
