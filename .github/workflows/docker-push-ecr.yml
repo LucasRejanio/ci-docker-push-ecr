@@ -46,14 +46,6 @@ jobs:
         run: |
           echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image')" >> $GITHUB_ENV 
       
-      - name: Docker pull image 
+      - name: Teste set env 
         run: |
-          docker pull $IMAGE_NAME:latest
-        
-      - name: Docker tag in the ECS
-        run: |
-          docker tag $IMAGE_NAME $DOCKER_URI
-
-      - name: Push to ECR
-        run: |
-          docker push $DOCKER_URI
+          echo $IMAGE_NAME
