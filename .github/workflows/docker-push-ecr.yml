@@ -5,17 +5,15 @@ on:
     branches: [ main ]
 
 env:
-  AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
   AWS_CI_ACCOUNT_ID: ${{ secrets.AWS_CI_ACCOUNT_ID }}
   AWS_CI_ACCESS_KEY_ID: ${{ secrets.AWS_CI_ACCESS_KEY_ID }}
   AWS_CI_SECRET_ACCESS_KEY: ${{ secrets.AWS_CI_SECRET_ACCESS_KEY }}
-  AWS_CI_REPOSITORY_NAME_ECS: datadog-agent
   
   AWS_QA_ACCOUNT_ID: ${{ secrets.AWS_QA_ACCOUNT_ID }}
   AWS_QA_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
   AWS_QA_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
-  AWS_QA_REPOSITORY_NAME_ECS: datadog-agent
+  
 
 jobs:
   build-and-push:
@@ -44,12 +42,17 @@ jobs:
       
       - name: Parse Json and set env 
         run: |
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV 
+          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
+          echo "DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Tag' | sed 's/"//g')" >> $GITHUB_ENV 
       
-      - name: Validation 
-        run: |
-          echo ${IMAGE_NAME} \
-          
       - name: Docker pull image 
         run: |
           docker pull ${IMAGE_NAME}
+        
+      - name: Docker tag in the ECS
+        run: |
+          docker tag ${IMAGE_NAME} ${DOCKER_URI}
+
+      - name: Push to ECR
+        run: |
+          docker push ${DOCKER_URI}
