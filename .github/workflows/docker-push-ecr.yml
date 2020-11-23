@@ -46,6 +46,10 @@ jobs:
         run: |
           echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image')" >> $GITHUB_ENV \
           echo "IMAGE_TAG=$(cat ./images-docker/images.json | jq '.[].Tag')" >> $GITHUB_ENV 
+      
+      - name: Validation 
+        run: |
+          echo $IMAGE_NAME:$IMAGE_TAG
           
       - name: Docker pull image 
         run: |
