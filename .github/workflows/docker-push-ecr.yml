@@ -44,8 +44,9 @@ jobs:
           
       - name: Parse Json and set env 
         run: |
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image')" >> $GITHUB_ENV 
+          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image')" >> $GITHUB_ENV /
+          echo "IMAGE_TAG=$(cat ./images-docker/images.json | jq '.[].Tag')" >> $GITHUB_ENV
       
-      - name: Teste set env 
+      - name: Docker pull image 
         run: |
-          echo $IMAGE_NAME
+          docker pull $IMAGE_NAME:$IMAGE_TAG
