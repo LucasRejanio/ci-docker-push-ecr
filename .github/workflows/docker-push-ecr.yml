@@ -44,8 +44,8 @@ jobs:
           
       - name: Parse Json 
         run: | 
-           echo "IMAGE_NAME=$(cat ./datadog-agent/images.json | jq '.[].image')" /
-           echo "DOCKER_URI=$(cat ./datadog-agent/images.json | jq '.[].Service')"
+           echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].image')" /
+           echo "DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Service')"
       
       - name: Echo var 
         run: |
