@@ -45,11 +45,12 @@ jobs:
       - name: Parse Json 
         run: |
           echo IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].image') /
+          echo IMAGE_TAG=$(cat ./images-docker/images.json | jq '.[].Service') /
           echo DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Service')
       
       - name: Docker pull image 
         run: |
-          docker pull $IMAGE_NAME
+          docker pull $IMAGE_NAME:$IMAGE_TAG
         
       - name: Docker tag in the ECS
         run: |
