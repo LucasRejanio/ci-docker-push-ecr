@@ -34,26 +34,9 @@ jobs:
           && aws configure set aws_secret_access_key ${AWS_QA_SECRET_ACCESS_KEY} --profile qa \
 
       #Enviroment CI
-      - name: Setup ECR enviromment CI 
+      - name: Loop validation 
         run: |
-          docker login \
-          -u AWS \
-          -p $(aws ecr --profile ci get-login-password) \
-          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      
-      - name: Parse Json and set env 
-        run: |
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
-          && echo "DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Service' | sed 's/"//g')" >> $GITHUB_ENV 
-      
-      - name: Docker pull image 
-        run: |
-          docker pull $IMAGE_NAME
-        
-      - name: Docker tag in the ECS
-        run: |
-          docker tag $IMAGE_NAME $DOCKER_URI
-
-      - name: Push to ECR
-        run: |
-          docker push $DOCKER_URI
+          for k in $(jq ./images-docker/images.json | '.children.values | Profile | .[]' prod | sed 's/"//g'); do
+            echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
+            && echo $IMAGE_NAME
+    
