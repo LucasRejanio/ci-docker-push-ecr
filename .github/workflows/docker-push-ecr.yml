@@ -45,17 +45,14 @@ jobs:
       - name: Docker pull image 
         run: |
           docker pull datadog/agent:latest
-        working-directory: ./datadog-agent
         
       - name: Docker tag in the ECS
         run: |
-          docker tag datadog/agent:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_CI_REPOSITORY_NAME_ECS:latest
-        working-directory: ./datadog-agent
+          docker tag datadog/agent:latest $AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_CI_REPOSITORY_NAME_ECS:latest
 
       - name: Push to ECR
         run: |
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_CI_REPOSITORY_NAME_ECS:latest
-        working-directory: ./datadog-agent
+          docker push $AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_CI_REPOSITORY_NAME_ECS:latest
 
         #Enviroment QA
       - name: Setup ECR enviromment QA 
@@ -63,19 +60,16 @@ jobs:
           docker login \
           -u AWS \
           -p $(aws ecr --profile qa get-login-password) \
-          https://$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+          https://$AWS_QA_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           
       - name: Docker pull image 
         run: |
           docker pull datadog/agent:latest
-        working-directory: ./datadog-agent
         
       - name: Docker tag in the ECS
         run: |
-          docker tag datadog/agent:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_CI_REPOSITORY_NAME_ECS:latest
-        working-directory: ./datadog-agent
+          docker tag datadog/agent:latest $AWS_QA_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_QA_REPOSITORY_NAME_ECS:latest
 
       - name: Push to ECR
         run: |
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_CI_REPOSITORY_NAME_ECS:latest
-        working-directory: ./datadog-agent
+          docker push $AWS_QA_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_QA_REPOSITORY_NAME_ECS:latest
