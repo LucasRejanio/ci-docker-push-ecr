@@ -36,7 +36,8 @@ jobs:
       #Enviroment CI
       - name: Loop validation 
         run: |
-          for k in $(jq ./images-docker/images.json | '.children.values | Profile | .[]' prod | sed 's/"//g'); do
+          for k in $(jq '.children.values | keys | .[]' prod); do
             echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
             && echo $IMAGE_NAME
+          done
     
