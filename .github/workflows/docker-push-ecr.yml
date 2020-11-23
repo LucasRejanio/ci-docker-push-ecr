@@ -44,13 +44,11 @@ jobs:
           
       - name: Parse Json and set env 
         run: |
-          IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image') /
-          IMAGE_TAG=$(cat ./images-docker/images.json | jq '.[].Tag') /
-          DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Service')"
+          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image')" >> $GITHUB_ENV 
       
       - name: Docker pull image 
         run: |
-          docker pull $IMAGE_NAME:$IMAGE_TAG
+          docker pull $IMAGE_NAME:latest
         
       - name: Docker tag in the ECS
         run: |
