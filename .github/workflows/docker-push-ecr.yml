@@ -36,9 +36,6 @@ jobs:
       - name: Loop validation prod
         run: |
           for k in $(jq -rc '.[] | select(.Profile == "prod")' ./images-docker/images.json); do
-          docker login \
-          -u AWS \
-          -p $(aws ecr --profile prod get-login-password) \
-          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+          echo "Exist image docker prod"
           done
     
