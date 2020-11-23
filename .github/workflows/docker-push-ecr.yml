@@ -49,4 +49,4 @@ jobs:
       
       - name: Docker pull image 
         run: |
-          docker pull ${IMAGE_NAME}:${IMAGE_TAG}
+          docker pull -a ${IMAGE_NAME}:${IMAGE_TAG}
