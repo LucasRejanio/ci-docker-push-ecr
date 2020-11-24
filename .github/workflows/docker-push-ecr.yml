@@ -39,6 +39,6 @@ jobs:
           echo "PROFILE_NAME=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" \
           && docker login \
           -u AWS \
-          -p $(aws ecr --profile ${PROFILE_NAME} get-login-password) \
+          -p $(aws ecr --profile prod get-login-password) \
           https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           done
