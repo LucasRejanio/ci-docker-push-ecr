@@ -35,7 +35,8 @@ jobs:
             
       - name: Pull and push to ECR
         run: |
-          for k in $(jq -rc '.[]' ./images-docker/images.json) do
-          echo "PROFILE=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV
+          for k in $(jq -rc '.[]' ./images-docker/images.json) 
+          do
+          echo "PROFILE=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV \
           && echo $PROFILE 
           done
