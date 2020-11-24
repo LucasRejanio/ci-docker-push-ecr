@@ -47,4 +47,5 @@ jobs:
           docker login \
           -u AWS \
           -p $(aws ecr --profile $PROFILE_AWS get-login-password) \
-          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com \
+          && echo $PROFILE_AWS
