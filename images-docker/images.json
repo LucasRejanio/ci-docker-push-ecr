@@ -5,7 +5,7 @@
     "Service":"033846053144.dkr.ecr.us-east-1.amazonaws.com/datadog-agent:latest"
     },
     {
-    "Profile":"prod",
+    "Profile":"qa",
     "Image":"datadog/agent:latest",
     "Service":"033846053144.dkr.ecr.us-east-1.amazonaws.com/datadog-agent:latest"
     }
