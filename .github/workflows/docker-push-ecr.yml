@@ -35,7 +35,7 @@ jobs:
           
       - name: Loop validation prod
         run: |
-          for k in $(jq -rc '.[] | select(.Profile == "prod")' ./images-docker/images.json); do
-          echo "Exist image docker prod"
+          for k in $(jq -rc '.[]' ./images-docker/images.json); do
+          echo $k
           done
     
