@@ -39,8 +39,8 @@ jobs:
           _jq() {
             echo ${row} | base64 --decode | jq -r ${1}
           }
-          echo "PROFILE_AWS=$(cat ./images-docker/images.json | _jq '.Profile' | sed 's/"//g')" >> $GITHUB_ENV
-          echo $PROFILE_AWS
+          echo "PROFILE_AWS=$(cat ./images-docker/images.json | _jq '.Profile' | sed 's/"//g')" >> $GITHUB_ENV \
+          && echo $PROFILE_AWS
           done
           
       - name: Validation 
