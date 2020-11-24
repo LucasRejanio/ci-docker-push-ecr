@@ -37,5 +37,9 @@ jobs:
         run: |
           for k in $(jq -rc '.[]' ./images-docker/images.json) 
           do
-          USER=$(cat ./images-docker/images.json | jq '.[k].Profile' | sed 's/"//g')
+          USER=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')
           done
+          
+      - name: Validation 
+        run: |
+          echo $USER
