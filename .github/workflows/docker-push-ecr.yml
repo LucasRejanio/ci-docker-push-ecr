@@ -37,7 +37,6 @@ jobs:
         run: |
           for k in $(jq -rc '.[]' ./images-docker/images.json) 
           do
-          echo $PROFILE 
+          echo "::set-env PROFILE=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')"
+          echo $PROFILE  
           done
-        env:
-          PROFILE: =$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')
