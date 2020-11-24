@@ -40,4 +40,4 @@ jobs:
           echo $PROFILE 
           done
         env:
-          PROFILE: $(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')
+          PROFILE: =$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')
