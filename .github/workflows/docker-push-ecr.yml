@@ -1,4 +1,3 @@
-
 name: Docker pull from dockerhub and docker push to ecr aws
 
 on:
@@ -11,12 +10,11 @@ env:
   AWS_CI_ACCOUNT_ID: ${{ secrets.AWS_CI_ACCOUNT_ID }}
   AWS_CI_ACCESS_KEY_ID: ${{ secrets.AWS_CI_ACCESS_KEY_ID }}
   AWS_CI_SECRET_ACCESS_KEY: ${{ secrets.AWS_CI_SECRET_ACCESS_KEY }}
-  AWS_CI_REPOSITORY_NAME_ECS: datadog-agent
   
   AWS_QA_ACCOUNT_ID: ${{ secrets.AWS_QA_ACCOUNT_ID }}
   AWS_QA_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
   AWS_QA_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
-  AWS_QA_REPOSITORY_NAME_ECS: datadog-agent
+  
 
 jobs:
   build-and-push:
@@ -28,24 +26,16 @@ jobs:
       
       - name: Configure environments
         run: |
-          aws configure set aws_account_id ${AWS_CI_ACCOUNT_ID} --profile ci \
-          && aws configure set aws_access_key_id ${AWS_CI_ACCESS_KEY_ID} --profile ci \
-          && aws configure set aws_secret_access_key ${AWS_CI_SECRET_ACCESS_KEY} --profile ci \
+          aws configure set aws_account_id ${AWS_CI_ACCOUNT_ID} --profile prod \
+          && aws configure set aws_access_key_id ${AWS_CI_ACCESS_KEY_ID} --profile prod \
+          && aws configure set aws_secret_access_key ${AWS_CI_SECRET_ACCESS_KEY} --profile prod \
           && aws configure set aws_account_id ${AWS_QA_ACCOUNT_ID} --profile qa \
           && aws configure set aws_access_key_id ${AWS_QA_ACCESS_KEY_ID} --profile qa \
           && aws configure set aws_secret_access_key ${AWS_QA_SECRET_ACCESS_KEY} --profile qa \
-      #Enviroment CI
-      - name: Setup ECR enviromment CI 
+            
+      - name: Pull and push to ECR
         run: |
-          docker login \
-          -u AWS \
-          -p $(aws ecr --profile ci get-login-password) \
-          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      
-      - name: Parse Json and set env 
-        run: |
-          echo `IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/\"//g')` >> $GITHUB_ENV 
-      
-      - name: Validation 
-        run: |
-          echo $IMAGE_NAME
+          for k in $(jq -rc '.[]' ./images-docker/images.json) 
+          do
+          echo "PROFILE=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV
+          done
