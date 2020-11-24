@@ -35,12 +35,7 @@ jobs:
             
       - name: Pull and push to ECR
         run: |
-          for k in $(jq -rc '.[]' ./images-docker/images.json) 
-          do
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image')" >> $GITHUB_ENV \
-          && echo $IMAGE_NAME \
-          && docker login \
-          -u AWS \
-          -p $(aws ecr --profile $PROFILE get-login-password) \
-          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+          for k in $(jq -rc '.[]' ./images-docker/images.json) do
+          echo "PROFILE=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV
+          && echo $PROFILE 
           done
