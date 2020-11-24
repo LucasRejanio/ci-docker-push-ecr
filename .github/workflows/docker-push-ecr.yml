@@ -37,9 +37,5 @@ jobs:
         run: |
           for k in $(jq -rc '.[]' ./images-docker/images.json); do
           echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
-          && echo $PROFILE_NAME_AWS \
-          && docker login \
-          -u AWS \
-          -p $(aws ecr --profile $PROFILE_NAME get-login-password) \
-          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+          && echo $IMAGE_NAME 
           done
