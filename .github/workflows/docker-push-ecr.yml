@@ -32,21 +32,28 @@ jobs:
           && aws configure set aws_account_id ${AWS_QA_ACCOUNT_ID} --profile qa \
           && aws configure set aws_access_key_id ${AWS_QA_ACCESS_KEY_ID} --profile qa \
           && aws configure set aws_secret_access_key ${AWS_QA_SECRET_ACCESS_KEY} --profile qa \
+
+      #Enviroment CI
+      - name: Setup ECR enviromment CI 
+        run: |
+          docker login \
+          -u AWS \
+          -p $(aws ecr --profile prod get-login-password) \
+          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       
       - name: Parse Json and set env 
         run: |
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image')" >> $GITHUB_ENV 
+          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
+          && echo "DOCKER_URI=$(cat ./images-docker/images.json | jq '.[].Service' | sed 's/"//g')" >> $GITHUB_ENV 
       
-      - name: Teste set env 
+      - name: Docker pull image 
         run: |
-          echo $IMAGE_NAME
-          
-      - name: Pull and push to ECR
+          docker pull $IMAGE_NAME
+        
+      - name: Docker tag in the ECS
         run: |
-          for k in $(jq -rc '.[]' ./images-docker/images.json); do
-          echo "PROFILE_NAME=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV
-          && docker login \
-          -u AWS \
-          -p $(aws ecr --profile $PROFILE_NAME get-login-password) \
-          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-          done
+          docker tag $IMAGE_NAME $DOCKER_URI
+
+      - name: Push to ECR
+        run: |
+          docker push $DOCKER_URI
