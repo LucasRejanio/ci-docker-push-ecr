@@ -36,6 +36,7 @@ jobs:
       - name: Pull and push to ECR
         run: |
           for row in $(cat ./images-docker/images.json | jq -r '.[] | @base64'); do
+          echo "PROFILE_AWS=$(cat ./images-docker/images.json | _jq '.Profile' | sed 's/"//g')" >> $GITHUB_ENV 
           _jq() {
             echo ${row} | base64 --decode | jq -r ${1}
           }
