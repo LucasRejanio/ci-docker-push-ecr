@@ -37,5 +37,5 @@ jobs:
         run: |
           for k in $(jq -rc '.[]' ./images-docker/images.json) 
           do
-          echo "::set-env PROFILE=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" 
+            echo "TESTE_123=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV \
           done
