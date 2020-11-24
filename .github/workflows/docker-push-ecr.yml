@@ -38,12 +38,9 @@ jobs:
           for row in $(cat ./images-docker/images.json | jq -r '.[] | @base64'); do
           _jq() {
             echo ${row} | base64 --decode | jq -r ${1}
+            echo "PROFILE_AWS=$(_jq '.Profile')" >> $GITHUB_ENV \
           }
-          echo "PROFILE_AWS=$(_jq '.Profile')" >> $GITHUB_ENV \
-          && docker login \
-          -u AWS \
-          -p $(aws ecr --profile $PROFILE_AWS get-login-password) \
-          https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+          echo $PROFILE_AWS
           done
           
       - name: Validation 
