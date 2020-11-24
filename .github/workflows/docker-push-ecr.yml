@@ -37,7 +37,7 @@ jobs:
         run: |
           for k in $(jq -rc '.[]' ./images-docker/images.json) 
           do
-          PROFILE_AWS=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')
+          echo "PROFILE_AWS=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV
           done
           
       - name: Validation 
