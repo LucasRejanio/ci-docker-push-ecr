@@ -37,6 +37,6 @@ jobs:
         run: |
           for k in $(jq -rc '.[]' ./images-docker/images.json); do
           echo "PROFILE_NAME=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV \
-          echo $PROFILE_NAME
+          && echo $PROFILE_NAME
           done
     
