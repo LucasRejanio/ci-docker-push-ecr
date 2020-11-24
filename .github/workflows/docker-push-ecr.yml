@@ -36,5 +36,5 @@ jobs:
       - name: Loop validation prod
         run: |
           for k in $(jq -rc '.[]' ./images-docker/images.json); do
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV
+            echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV
           done
