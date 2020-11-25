@@ -40,10 +40,9 @@ jobs:
               echo ${row} | base64 --decode | jq -r ${1}
               }
 
-          echo "PROFILE_AWS=$(_jq '.Profile')" >> $GITHUB_ENV \
-          && echo $PROFILE_AWS
+          echo $(_jq '.Profile')
           done
           
       - name: validation
         run: | 
-         echo $PROFILE_AWS
+         echo "..."
