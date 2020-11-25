@@ -43,3 +43,7 @@ jobs:
           echo "PROFILE_AWS=$(_jq '.Profile')" >> $GITHUB_ENV \
           && echo $PROFILE_AWS
           done
+          
+      - name: validation
+        run: | 
+         echo $PROFILE_AWS
