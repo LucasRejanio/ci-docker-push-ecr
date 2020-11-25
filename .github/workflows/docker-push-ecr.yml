@@ -41,6 +41,6 @@ jobs:
               }
               
               echo $(_jq '.Profile') \
-              && echo "::set-output name=PROFILE_AWS=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV \
+              && echo "PROFILE_AWS=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV_OUTPUT \
               && echo $PROFILE_AWS
               done
