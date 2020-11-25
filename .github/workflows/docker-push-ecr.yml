@@ -35,11 +35,11 @@ jobs:
           
       - name: Pull and push to ECR
         run: |
-         QNT_OBJECTS_JSON=$(jq '. | length' ./images-docker/images.json) \
-         && INIT_WHILE=0 \
-         && while [INIT_WHILE <= QNT_OBJECTS_JSON]
+         $QNT_OBJECTS_JSON=$(jq '. | length' ./images-docker/images.json) \
+         && $INIT_WHILE=0 \
+         && while [$INIT_WHILE <= QNT_OBJECTS_JSON]
           do
-          	INIT_WHILE=$INIT_WHILE+1 \
-          	&& echo "PROFILE_AWS=$(cat ./images-docker/images.json | jq '.[$INIT_WHILE].Profile' | sed 's/"//g')" >> $GITHUB_EN
+          	$INIT_WHILE=$INIT_WHILE+1 \
+          	&& echo "PROFILE_AWS=$(cat ./images-docker/images.json | jq '.[$INIT_WHILE].Profile' | sed 's/"//g')" >> $GITHUB_ENV
           done
     
