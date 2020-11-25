@@ -33,11 +33,6 @@ jobs:
           && aws configure set aws_access_key_id ${AWS_QA_ACCESS_KEY_ID} --profile qa \
           && aws configure set aws_secret_access_key ${AWS_QA_SECRET_ACCESS_KEY} --profile qa \
           
-      - name: Parse Json and set env 
-        run: |
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV \
-          && echo $IMAGE_NAME
-          
       - name: Pull and push to ECR
         run: |
           for row in $(cat ./images-docker/images.json | jq -r '.[] | @base64'); do
@@ -47,7 +42,4 @@ jobs:
 
           echo $(_jq '.Profile')
           done
-          
-      - name: validation
-        run: | 
-         echo "..."
+    
