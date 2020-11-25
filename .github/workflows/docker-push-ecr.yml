@@ -35,7 +35,7 @@ jobs:
           
       - name: Pull and push to ECR
         env:
-          PROFILE_AWS: profile
+          PROFILE_AWS: $(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')
         run: |
          for row in $(cat ./images-docker/images.json | jq -r '.[] | @base64'); do
               _jq() {
