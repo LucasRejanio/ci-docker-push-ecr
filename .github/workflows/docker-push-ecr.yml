@@ -40,6 +40,7 @@ jobs:
               echo ${row} | base64 --decode | jq -r ${1}
               }
 
-          echo $(_jq '.Profile')
+          echo "AWS_PROFILE=$(cat ./images-docker/images.json | _jq '.Profile' | sed 's/"//g')" >> $GITHUB_ENV \
+          && echo $AWS_PROFILE
           done
     
