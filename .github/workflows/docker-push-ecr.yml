@@ -45,4 +45,4 @@ jobs:
               && echo $PROFILE_AWS
               done
         env: 
-          OUTPUT: ${{ PROFILE_AWS }}
+          OUTPUT: $PROFILE_AWS
