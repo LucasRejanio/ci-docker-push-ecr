@@ -34,6 +34,8 @@ jobs:
           && aws configure set aws_secret_access_key ${AWS_QA_SECRET_ACCESS_KEY} --profile qa \
           
       - name: Pull and push to ECR
+        env:
+          PROFILE_AWS: profile
         run: |
          for row in $(cat ./images-docker/images.json | jq -r '.[] | @base64'); do
               _jq() {
@@ -41,6 +43,6 @@ jobs:
               }
               
               echo $(_jq '.Profile') \
-              && echo "PROFILE_AWS=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV_OUTPUT \
+              && echo "PROFILE_AWS=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV \
               && echo $PROFILE_AWS
               done
