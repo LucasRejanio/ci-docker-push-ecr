@@ -35,7 +35,7 @@ jobs:
           
       - name: Parse Json and set env 
         run: |
-          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Image' | sed 's/"//g')" >> $GITHUB_ENV \
+          echo "IMAGE_NAME=$(cat ./images-docker/images.json | jq '.[].Profile' | sed 's/"//g')" >> $GITHUB_ENV \
           && echo $IMAGE_NAME
           
       - name: Pull and push to ECR
