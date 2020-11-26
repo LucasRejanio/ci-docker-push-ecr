@@ -41,12 +41,14 @@ jobs:
               }
               
               PROFILE_AWS=$(_jq '.Profile' | sed 's/"//g') \
-              && IMAGE_DOCKER=$(_jq '.Image' | sed 's/"//g') \
-              && echo $PROFILE_AWS \
+              && IMAGE_NAME=$(_jq '.Image' | sed 's/"//g') \
+              && ECR_NAME=$(_jq '.Ecr' | sed 's/"//g') \
+              && SERVICE_NAME=$(_jq '.Service' | sed 's/"//g') \
+            
               && docker login \
               -u AWS \
               -p $(aws ecr --profile $PROFILE_AWS get-login-password) \
-              https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+              https://$SERVICE_NAME
               done
       
       - name: Validation
