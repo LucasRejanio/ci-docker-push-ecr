@@ -45,13 +45,17 @@ jobs:
               && ECR_NAME=$(_jq '.Ecr' | sed 's/"//g') \
               && SERVICE_NAME=$(_jq '.Service' | sed 's/"//g') \
               && echo "Configured variables" \
+              && echo "Login account: " $PROFILE_AWS \
               && docker login \
               -u AWS \
               -p $(aws ecr --profile $PROFILE_AWS get-login-password) \
               https://$SERVICE_NAME \
-              && echo "Login account: " $PROFILE_AWS \
+              && echo "Starting pull" \
               && docker pull $IMAGE_NAME \
-              && docker tag $IMAGE_NAME $SERVICE_NAME/$ECR_NAME
+              && echo "Pull concluded" \
+              && echo "Starting tag" \
+              && docker tag $IMAGE_NAME $SERVICE_NAME/$ECR_NAME \
+              && echo "Tag concluded"
               done
       
       - name: Validation
