@@ -41,6 +41,7 @@ jobs:
               }
               
               PROFILE_AWS=$(_jq '.Profile' | sed 's/"//g') \
+              && IMAGE_DOCKER=$(_jq '.Image' | sed 's/"//g') \
               && echo $PROFILE_AWS \
               && docker login \
               -u AWS \
