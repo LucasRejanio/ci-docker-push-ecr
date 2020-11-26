@@ -4,10 +4,10 @@ Essa pipeline Actions é uma solução automatizada de pull e push do Docker Hub
 ```json
 [
     {
-    "profile":"prod",
-    "ecr_image_name":"datadog/agent:latest",
-    "ecr_host":"datadog-agent:latest",
-    "service":"033846053144.dkr.ecr.us-east-1.amazonaws.com"
+        "profile":"prod",
+        "dockerhub_image_name":"datadog/agent:latest",
+        "ecr_image_name":"datadog-agent:latest",
+        "ecr_host":"033846053144.dkr.ecr.us-east-1.amazonaws.com"
     }
 ]
 ```
