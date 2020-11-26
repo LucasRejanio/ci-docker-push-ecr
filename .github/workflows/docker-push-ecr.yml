@@ -47,7 +47,7 @@ jobs:
               && echo "Login account: " $PROFILE_AWS \
               && docker login \
               -u AWS \
-              -p $(aws ecr --profile $PROFILE_AWS get-login-password) \
+              -p $(aws ecr --profile $PROFILE_AWS) \
               https://$SERVICE_NAME \
               && echo "Starting pull" \
               && docker pull $IMAGE_NAME \
