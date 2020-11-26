@@ -55,7 +55,10 @@ jobs:
               && echo "Pull concluded" \
               && echo "Starting tag" \
               && docker tag $IMAGE_NAME $SERVICE_NAME/$ECR_NAME \
-              && echo "Tag concluded"
+              && echo "Tag concluded" \
+              && echo "Starting push" \
+              && docker push $SERVICE_NAME/$ECR_NAME \
+              && echo "Push concluded"
               done
       
       - name: Validation
