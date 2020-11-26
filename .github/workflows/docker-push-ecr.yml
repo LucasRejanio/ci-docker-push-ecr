@@ -41,8 +41,8 @@ jobs:
               }
               
               PROFILE_AWS=$(_jq '.profile' | sed 's/"//g') \
-              && IMAGE_NAME=$(_jq '.ecr_image_name' | sed 's/"//g') \
-              && ECR_NAME=$(_jq '.ecr_host' | sed 's/"//g') \
+              && IMAGE_NAME=$(_jq '.dockerhub_image_name' | sed 's/"//g') \
+              && ECR_NAME=$(_jq '.ecr_image_name' | sed 's/"//g') \
               && SERVICE_NAME=$(_jq '.service' | sed 's/"//g') \
               && docker login -u AWS -p $(aws ecr --profile $PROFILE_AWS get-login-password) https://$SERVICE_NAME \
               && docker pull $IMAGE_NAME \
