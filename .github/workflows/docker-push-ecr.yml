@@ -3,18 +3,16 @@ name: Pull from Dockerhub and push to AWS ECR
 on:
   push:
     branches: [ main ]
-
 env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
-  AWS_CI_ACCOUNT_ID: ${{ secrets.AWS_CI_ACCOUNT_ID }}
-  AWS_CI_ACCESS_KEY_ID: ${{ secrets.AWS_CI_ACCESS_KEY_ID }}
-  AWS_CI_SECRET_ACCESS_KEY: ${{ secrets.AWS_CI_SECRET_ACCESS_KEY }}
+  AWS_PROD_ACCOUNT_ID: ${{ secrets.AWS_CI_ACCOUNT_ID }}
+  AWS_PROD_ACCESS_KEY_ID: ${{ secrets.AWS_CI_ACCESS_KEY_ID }}
+  AWS_PROD_SECRET_ACCESS_KEY: ${{ secrets.AWS_CI_SECRET_ACCESS_KEY }}
   
   AWS_QA_ACCOUNT_ID: ${{ secrets.AWS_QA_ACCOUNT_ID }}
   AWS_QA_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
   AWS_QA_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
-  
   
 
 jobs:
