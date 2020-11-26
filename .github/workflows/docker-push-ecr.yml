@@ -41,7 +41,11 @@ jobs:
               }
               
               PROFILE_AWS=$(_jq '.Profile' | sed 's/"//g') \
-              && echo $PROFILE_AWS 
+              && echo $PROFILE_AWS \
+              && docker login \
+              -u AWS \
+              -p $(aws ecr --profile $PROFILE_AWS get-login-password) \
+              https://$AWS_CI_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
               done
       
       - name: Validation
