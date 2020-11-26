@@ -1,6 +1,17 @@
 # Docker push ecr
 Essa pipeline Actions é uma solução automatizada de pull e push do Docker Hub para o serviço da AWS Elastic Container Registry (ECR). Para a pipeline ficar dinamica utilizamos objetos em um arquivo json, dessa forma podemos adicionar ou remover imagens sem precisar atualizar a pipeline diretamente. 
 
+```json
+[
+    {
+    "Profile":"prod",
+    "Image":"datadog/agent:latest",
+    "Ecr":"ECR_NAME:latest",
+    "Service":"AWS_CI_ACCOUNT_ID.dkr.ecr.AWS_DEFAULT_REGION.amazonaws.com"
+    }
+]
+```
+
 ## Evolução da construção
 Primeiro realizei todo o processo de maneira manual, setando valores fixos. 
 
