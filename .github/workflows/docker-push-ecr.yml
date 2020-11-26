@@ -60,7 +60,3 @@ jobs:
               && docker push $SERVICE_NAME/$ECR_NAME \
               && echo "Push concluded"
               done
-      
-      - name: Validation
-        run: | 
-          echo $PROFILE_AWS
