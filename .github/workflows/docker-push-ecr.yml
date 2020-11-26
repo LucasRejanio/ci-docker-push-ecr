@@ -51,7 +51,7 @@ jobs:
               https://$SERVICE_NAME \
               && echo "Login account: " $PROFILE_AWS \
               && docker pull $IMAGE_NAME \
-              && docker tag $IMAGE_NAME $SERVICE_NAME:$ECR_NAME
+              && docker tag $IMAGE_NAME $SERVICE_NAME/$ECR_NAME
               done
       
       - name: Validation
