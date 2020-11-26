@@ -3,6 +3,7 @@ name: Pull from Dockerhub and push to AWS ECR
 on:
   push:
     branches: [ main ]
+    
 env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
@@ -47,5 +48,5 @@ jobs:
               && docker pull $IMAGE_NAME \
               && docker tag $IMAGE_NAME $SERVICE_NAME/$ECR_NAME \
               && docker push $SERVICE_NAME/$ECR_NAME \
-              && echo "Process completed on account" $PROFILE_AWS
+              && echo "Process completed on account" $PROFILE_AWS "with the image:" $ IMAGE_NAME "and ECR" $ECR_NAME
           done
