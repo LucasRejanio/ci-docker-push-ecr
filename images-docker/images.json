@@ -1,8 +1,8 @@
 [
     {
         "profile":"prod",
-        "ecr_image_name":"datadog/agent:latest",
-        "dockerhub_image_name":"datadog-agent:latest",
+        "dockerhub_image_name":"datadog/agent:latest",
+        "ecr_image_name":"datadog-agent:latest",
         "ecr_host":"033846053144.dkr.ecr.us-east-1.amazonaws.com"
     }
 ]
