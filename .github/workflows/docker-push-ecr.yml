@@ -44,10 +44,13 @@ jobs:
               && IMAGE_NAME=$(_jq '.Image' | sed 's/"//g') \
               && ECR_NAME=$(_jq '.Ecr' | sed 's/"//g') \
               && SERVICE_NAME=$(_jq '.Service' | sed 's/"//g') \
+              && echo "Configured variables"
               && docker login \
               -u AWS \
               -p $(aws ecr --profile $PROFILE_AWS get-login-password) \
-              https://$SERVICE_NAME
+              https://$SERVICE_NAME \
+              && echo "Login account: " $PROFILE_AWS \
+              && docker pull $IMAGE_NAME
               done
       
       - name: Validation
