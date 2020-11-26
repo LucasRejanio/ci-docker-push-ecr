@@ -40,10 +40,10 @@ jobs:
                echo ${row} | base64 --decode | jq -r ${1}
               }
               
-              PROFILE_AWS=$(_jq '.Profile' | sed 's/"//g') \
-              && IMAGE_NAME=$(_jq '.Image' | sed 's/"//g') \
-              && ECR_NAME=$(_jq '.Ecr' | sed 's/"//g') \
-              && SERVICE_NAME=$(_jq '.Service' | sed 's/"//g') \
+              PROFILE_AWS=$(_jq '.profile' | sed 's/"//g') \
+              && IMAGE_NAME=$(_jq '.ecr_image_name' | sed 's/"//g') \
+              && ECR_NAME=$(_jq '.ecr_host' | sed 's/"//g') \
+              && SERVICE_NAME=$(_jq '.service' | sed 's/"//g') \
               && docker login -u AWS -p $(aws ecr --profile $PROFILE_AWS get-login-password) https://$SERVICE_NAME \
               && docker pull $IMAGE_NAME \
               && docker tag $IMAGE_NAME $SERVICE_NAME/$ECR_NAME \
