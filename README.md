@@ -1,5 +1,7 @@
 # Docker push ecr
-Docker pull from dockerhub and docker push to ecr aws
+Essa pipeline Actions é uma solução automatizada de pull e push do Docker Hub para o serviço da AWS Elastic Container Registry (ECR). Para a pipeline ficar dinamica utilizamos objetos em um arquivo json, dessa forma podemos adicionar ou remover imagens sem precisar atualizar a pipeline diretamente. 
+
+## Evolução da construção
 
 ```yml
 name: Docker pull from dockerhub and docker push to ecr aws
