@@ -48,5 +48,5 @@ jobs:
               && docker pull $IMAGE_NAME \
               && docker tag $IMAGE_NAME $SERVICE_NAME/$ECR_NAME \
               && docker push $SERVICE_NAME/$ECR_NAME \
-              && echo "Process completed on account" $PROFILE_AWS "with the image:" $ IMAGE_NAME "and ECR" $ECR_NAME
+              && echo "Process completed on account" $PROFILE_AWS "with the image:" $IMAGE_NAME "and ECR" $ECR_NAME
           done
