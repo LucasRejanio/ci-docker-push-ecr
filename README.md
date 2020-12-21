@@ -129,20 +129,19 @@ E por fim, deixei tudo de uma maneira dinâmica, passando todos os parametros ne
 name: Pull from Dockerhub and push to AWS ECR
 
 on:
-  schedule:
-    - cron: "00 03 * * 0" # Midnight of everyday on BRT
-
+  push:
+    branches: [ main ]
+    
 env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
-  AWS_PROD_ACCOUNT_ID: ${{ secrets.AWS_CI_ACCOUNT_ID }}
-  AWS_PROD_ACCESS_KEY_ID: ${{ secrets.AWS_CI_ACCESS_KEY_ID }}
-  AWS_PROD_SECRET_ACCESS_KEY: ${{ secrets.AWS_CI_SECRET_ACCESS_KEY }}
+  AWS_CI_ACCOUNT_ID: ${{ secrets.AWS_CI_ACCOUNT_ID }}
+  AWS_CI_ACCESS_KEY_ID: ${{ secrets.AWS_CI_ACCESS_KEY_ID }}
+  AWS_CI_SECRET_ACCESS_KEY: ${{ secrets.AWS_CI_SECRET_ACCESS_KEY }}
   
   AWS_QA_ACCOUNT_ID: ${{ secrets.AWS_QA_ACCOUNT_ID }}
   AWS_QA_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
   AWS_QA_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
-  
 
 jobs:
   build-and-push:
@@ -154,9 +153,9 @@ jobs:
       
       - name: Configure environments
         run: |
-          aws configure set aws_account_id ${AWS_PROD_ACCOUNT_ID} --profile prod \
-          && aws configure set aws_access_key_id ${AWS_PROD_ACCESS_KEY_ID} --profile prod \
-          && aws configure set aws_secret_access_key ${AWS_PROD_SECRET_ACCESS_KEY} --profile prod \
+          aws configure set aws_account_id ${AWS_CI_ACCOUNT_ID} --profile prod \
+          && aws configure set aws_access_key_id ${AWS_CI_ACCESS_KEY_ID} --profile prod \
+          && aws configure set aws_secret_access_key ${AWS_CI_SECRET_ACCESS_KEY} --profile prod \
           && aws configure set aws_account_id ${AWS_QA_ACCOUNT_ID} --profile qa \
           && aws configure set aws_access_key_id ${AWS_QA_ACCESS_KEY_ID} --profile qa \
           && aws configure set aws_secret_access_key ${AWS_QA_SECRET_ACCESS_KEY} --profile qa \
@@ -168,24 +167,14 @@ jobs:
                echo ${row} | base64 --decode | jq -r ${1}
               }
               
-              PROFILE_AWS=$(_jq '.Profile' | sed 's/"//g') \
-              && IMAGE_NAME=$(_jq '.Image' | sed 's/"//g') \
-              && ECR_NAME=$(_jq '.Ecr' | sed 's/"//g') \
-              && SERVICE_NAME=$(_jq '.Service' | sed 's/"//g') \
-              && echo "Configured variables" \
-              && echo "Login account: " $PROFILE_AWS \
-              && docker login \
-              -u AWS \
-              -p $(aws ecr --profile $PROFILE_AWS get-login-password) \
-              https://$SERVICE_NAME \
-              && echo "Starting pull" \
+              PROFILE_AWS=$(_jq '.profile' | sed 's/"//g') \
+              && IMAGE_NAME=$(_jq '.dockerhub_image_name' | sed 's/"//g') \
+              && ECR_NAME=$(_jq '.ecr_image_name' | sed 's/"//g') \
+              && SERVICE_NAME=$(_jq '.ecr_host' | sed 's/"//g') \
+              && docker login -u AWS -p $(aws ecr --profile $PROFILE_AWS get-login-password) https://$SERVICE_NAME \
               && docker pull $IMAGE_NAME \
-              && echo "Pull concluded" \
-              && echo "Starting tag" \
               && docker tag $IMAGE_NAME $SERVICE_NAME/$ECR_NAME \
-              && echo "Tag concluded" \
-              && echo "Starting push" \
               && docker push $SERVICE_NAME/$ECR_NAME \
-              && echo "Push concluded"
+              && echo "Process completed on account:" $PROFILE_AWS "with the image:" $IMAGE_NAME "and ECR:" $ECR_NAME
           done
 ```
